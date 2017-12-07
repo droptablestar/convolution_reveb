@@ -1,0 +1,108 @@
+#N canvas 505 89 875 554 10;
+#N canvas 454 277 548 300 init 0;
+#X obj 21 16 loadbang;
+#X obj -2 37 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X msg 21 268 \; pd dsp 0 \;;
+#X obj 21 37 t b b b b;
+#X obj 193 107 s window-set;
+#X msg 193 86 1;
+#X obj 122 261 soundfiler;
+#X obj 145 136 s master-volume-set;
+#X obj 253 74 s overlap-set;
+#X msg 253 53 2;
+#X msg 158 190 \; ir resize 32768 \;;
+#X msg 145 115 0;
+#X msg 121 241 read ir-1.wav ir;
+#X connect 0 0 3 0;
+#X connect 1 0 3 0;
+#X connect 3 0 2 0;
+#X connect 3 1 12 0;
+#X connect 3 2 11 0;
+#X connect 3 2 5 0;
+#X connect 3 2 10 0;
+#X connect 3 3 9 0;
+#X connect 5 0 4 0;
+#X connect 9 0 8 0;
+#X connect 11 0 7 0;
+#X connect 12 0 6 0;
+#X restore 739 232 pd init;
+#X floatatom 579 249 5 0 0 0 - master-volume -;
+#X obj 579 327 cnv 15 220 200 empty empty empty 20 12 0 14 -233017
+-66577 0;
+#X msg 708 441 overlap \$1;
+#X msg 599 441 window \$1;
+#X obj 708 358 hradio 15 1 0 3 empty overlap-set overlap 0 -8 0 12
+-262144 -1 -1 2;
+#X obj 708 398 swap 2;
+#X obj 708 419 pow;
+#X obj 599 358 hradio 15 1 0 5 empty window-set window 0 -8 0 12 -262144
+-1 -1 1;
+#X obj 599 398 swap 2;
+#X obj 599 419 pow;
+#X obj 599 378 + 10;
+#X text 578 307 Change window size/overlap;
+#X obj 444 249 hsl 128 15 0 100 0 0 master-volume master-volume-set
+master-volume -2 -8 0 12 -204786 -1 -1 0 1;
+#X obj 341 327 cnv 15 220 200 empty empty empty 20 12 0 14 -233017
+-66577 0;
+#X text 340 307 Analyze audio;
+#X obj 359 86 cnv 15 440 100 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 190 207 227 296 volume 0;
+#X obj 46 24 inlet~;
+#X obj 46 234 outlet~;
+#X obj 46 159 *~;
+#X obj 64 93 dbtorms;
+#X msg 64 114 \$1 40;
+#X obj 64 135 line~;
+#X obj 64 72 r master-volume;
+#X connect 0 0 2 0;
+#X connect 2 0 1 0;
+#X connect 3 0 4 0;
+#X connect 4 0 5 0;
+#X connect 5 0 2 1;
+#X connect 6 0 3 0;
+#X restore 34 276 pd volume;
+#X obj 599 494 s conv;
+#X obj 363 494 s conv;
+#X obj 65 113 r conv;
+#X obj 739 211 table ir;
+#X text 366 92 blah;
+#X obj 34 184 convolve~;
+#X msg 363 358 analyze ir;
+#X obj 34 51 adc~ 1;
+#X obj 134 245 env~;
+#X obj 134 217 /~ 1;
+#X floatatom 134 266 5 0 0 0 - - -;
+#X obj 171 69 readsf~;
+#X obj 222 105 spigot;
+#X obj 276 90 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#X obj 34 325 dac~;
+#X msg 171 18 open /Users/williambrent/sound/timbreGrains/audio_corpus_dDeutsch.wav
+\, start;
+#X msg 123 30 stop;
+#X connect 5 0 6 0;
+#X connect 6 0 7 0;
+#X connect 6 1 7 1;
+#X connect 7 0 3 0;
+#X connect 8 0 11 0;
+#X connect 9 0 10 0;
+#X connect 9 1 10 1;
+#X connect 10 0 4 0;
+#X connect 11 0 9 0;
+#X connect 17 0 32 0;
+#X connect 17 0 32 1;
+#X connect 20 0 23 0;
+#X connect 23 0 17 0;
+#X connect 23 0 27 0;
+#X connect 24 0 19 0;
+#X connect 26 0 28 0;
+#X connect 27 0 26 0;
+#X connect 29 0 23 0;
+#X connect 29 1 30 0;
+#X connect 30 0 33 0;
+#X connect 31 0 30 1;
+#X connect 33 0 29 0;
+#X connect 34 0 29 0;

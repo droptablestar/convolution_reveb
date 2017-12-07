@@ -1,0 +1,103 @@
+#N canvas 383 159 786 499 10;
+#N canvas 454 277 516 327 init 0;
+#X msg 22 268 \; pd dsp 0 \;;
+#X obj 122 281 soundfiler;
+#X obj 156 108 s master-volume-set;
+#X msg 156 87 0;
+#X obj 22 16 loadbang;
+#X obj -1 37 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 22 37 t b b b b b b b;
+#X msg 122 171 read -resize ir-1.wav ir1;
+#X msg 132 191 read -resize ir-2.wav ir2;
+#X msg 142 211 read -resize ir-tam.wav ir3;
+#X msg 152 231 read -resize ir-cym.wav ir4;
+#X connect 3 0 2 0;
+#X connect 4 0 6 0;
+#X connect 5 0 6 0;
+#X connect 6 0 0 0;
+#X connect 6 2 10 0;
+#X connect 6 3 9 0;
+#X connect 6 4 8 0;
+#X connect 6 5 7 0;
+#X connect 6 6 3 0;
+#X connect 7 0 1 0;
+#X connect 8 0 1 0;
+#X connect 9 0 1 0;
+#X connect 10 0 1 0;
+#X restore 583 316 pd init;
+#X floatatom 34 439 5 0 0 0 - master-volume -;
+#N canvas 190 207 227 296 volume 0;
+#X obj 46 24 inlet~;
+#X obj 46 234 outlet~;
+#X obj 46 159 *~;
+#X obj 64 93 dbtorms;
+#X msg 64 114 \$1 40;
+#X obj 64 135 line~;
+#X obj 64 72 r master-volume;
+#X connect 0 0 2 0;
+#X connect 2 0 1 0;
+#X connect 3 0 4 0;
+#X connect 4 0 5 0;
+#X connect 5 0 2 1;
+#X connect 6 0 3 0;
+#X restore 34 276 pd volume;
+#X obj 65 137 r conv;
+#X obj 34 21 adc~ 1;
+#X obj 99 97 readsf~;
+#X obj 34 325 dac~;
+#X msg 121 68 stop;
+#X obj 583 337 table ir1;
+#X obj 583 358 table ir2;
+#X obj 583 379 table ir3;
+#X obj 583 400 table ir4;
+#X obj 34 42 *~;
+#X obj 34 113 +~;
+#X obj 64 42 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0 1
+;
+#X obj 34 184 convolve~ 4096 2;
+#X obj 58 224 env~;
+#X floatatom 58 245 5 0 0 0 - - -;
+#X msg 99 46 open speech.wav \, start;
+#X obj 37 419 hsl 128 15 0 127 0 0 master-volume master-volume-set
+master-volume -2 -8 0 12 -228856 -1 -1 0 1;
+#X obj 316 23 cnv 15 450 200 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#X text 325 31 convolve~ is an inefficient impulse response (IR) convolution
+object. Creation arguments are window size and overlap. The creation
+arguments shown are the defaults. The largest IR size that has been
+tested is 65536 points long \, or about 1.5 seconds at 44.1kHz. Watch
+Pd's load meter to see if your particular combination of IR \, window
+size \, and overlap push your CPU over the top.;
+#X text 325 131 To start \, you must send convolve~ the "analyze" message
+along with the name of the table where your IR is stored. Then you
+can play back the example speech.wav \, or listen to live input (with
+headphones to prevent feedback). The gain scaling hasn't been worked
+out yet \, so you'll have to find the right volume for your particular
+settings.;
+#X obj 316 255 cnv 15 220 220 empty empty empty 20 12 0 14 -233017
+-66577 0;
+#X obj 338 442 s conv;
+#X msg 338 296 analyze ir1;
+#X msg 348 326 analyze ir2;
+#X msg 358 356 analyze ir3;
+#X msg 368 386 analyze ir4;
+#X text 104 244 beware of hot output!;
+#X text 325 263 Try these different IRs;
+#X connect 2 0 6 0;
+#X connect 2 0 6 1;
+#X connect 3 0 15 0;
+#X connect 4 0 12 0;
+#X connect 5 0 13 1;
+#X connect 7 0 5 0;
+#X connect 12 0 13 0;
+#X connect 13 0 15 0;
+#X connect 14 0 12 1;
+#X connect 15 0 2 0;
+#X connect 15 0 16 0;
+#X connect 16 0 17 0;
+#X connect 18 0 5 0;
+#X connect 25 0 24 0;
+#X connect 26 0 24 0;
+#X connect 27 0 24 0;
+#X connect 28 0 24 0;
